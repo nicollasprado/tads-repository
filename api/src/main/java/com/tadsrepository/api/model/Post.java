@@ -6,9 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Post {
     public static final String TABLE_NAME = "post";
 
@@ -36,15 +39,22 @@ public class Post {
     @NotNull
     private PostCategory postCategory;
 
-    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
-    @NotNull
-    @CreatedDate
+    @Column(name = "created_at", updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     @Column(name = "likes", nullable = false)
     @ColumnDefault("0")
     @NotNull
     private Integer likes = 0;
+
+    @Column(name = "text", nullable = false)
+    @NotBlank
+    private String text;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -55,9 +65,10 @@ public class Post {
     private Set<Comment> comments;
 
 
-    public Post(String title, PostCategory postCategory, User user){
+    public Post(String title, PostCategory postCategory, User user, String text){
         this.title = title;
         this.postCategory = postCategory;
         this.user = user;
+        this.text = text;
     }
 }

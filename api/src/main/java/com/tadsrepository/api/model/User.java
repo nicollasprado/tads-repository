@@ -1,10 +1,12 @@
 package com.tadsrepository.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Set;
@@ -15,6 +17,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class User {
     public static final String TABLE_NAME = "users";
 
@@ -24,7 +27,7 @@ public class User {
     @NotNull
     private UUID id;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", unique = true, nullable = false)
     @NotBlank
     private String username;
 
@@ -32,14 +35,16 @@ public class User {
     @NotBlank
     private String password;
 
-    @Column(name = "suap_username", nullable = false)
+    @Column(name = "suap_username", unique = true, nullable = false)
     @NotBlank
     private String suapUsername;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Post> posts;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Comment> comments;
 
 

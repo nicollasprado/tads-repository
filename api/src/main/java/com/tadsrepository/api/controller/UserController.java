@@ -1,6 +1,7 @@
 package com.tadsrepository.api.controller;
 
 import com.tadsrepository.api.dto.UserGetDTO;
+import com.tadsrepository.api.dto.UserPatchDTO;
 import com.tadsrepository.api.dto.UserRegisterDTO;
 import com.tadsrepository.api.dto.UserRegisterResponseDTO;
 import com.tadsrepository.api.service.UserService;
@@ -21,7 +22,7 @@ public class UserController {
 
     @GetMapping("/{username}")
     public ResponseEntity<UserGetDTO> getUser(@PathVariable String username){
-        UserGetDTO userGetDTO = userService.getUserByName(username);
+        UserGetDTO userGetDTO = userService.getUserDTOByName(username);
 
         return ResponseEntity.ok(userGetDTO);
     }
@@ -37,5 +38,19 @@ public class UserController {
                 .toUri();
 
         return ResponseEntity.created(newUserURI).body(userRegisterResponseDTO);
+    }
+
+    @DeleteMapping("/{username}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String username){
+        userService.deleteUser(username);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{username}")
+    public ResponseEntity<Void> updateUser(@PathVariable String username, @RequestBody UserPatchDTO userPatchDTO){
+        userService.updateUser(username, userPatchDTO);
+
+        return ResponseEntity.noContent().build();
     }
 }

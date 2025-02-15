@@ -1,6 +1,7 @@
 package com.tadsrepository.api.service;
 
 import com.tadsrepository.api.dto.UserGetDTO;
+import com.tadsrepository.api.dto.UserPatchDTO;
 import com.tadsrepository.api.dto.UserRegisterDTO;
 import com.tadsrepository.api.dto.UserRegisterResponseDTO;
 import com.tadsrepository.api.model.User;
@@ -17,18 +18,28 @@ public class UserService {
     private UserRepository userRepository;
 
 
-    public UserGetDTO getUserByName(String username){
+    public UserGetDTO getUserDTOByName(String username){
         Optional<User> userFound = userRepository.findByUsername(username);
 
         if(userFound.isEmpty()){
             throw new IllegalArgumentException("User not found: " + username);
-        }else{
-            User user = userFound.get();
-            return new UserGetDTO(
-                    user.getUsername(),
-                    user.getSuapUsername()
-            );
         }
+
+        User user = userFound.get();
+        return new UserGetDTO(
+                user.getUsername(),
+                user.getSuapUsername()
+        );
+    }
+
+    public User getUserByName(String username){
+        Optional<User> userFound = userRepository.findByUsername(username);
+
+        if(userFound.isEmpty()){
+            throw new IllegalArgumentException("User not found: " + username);
+        }
+
+        return userFound.get();
     }
 
     @Transactional
@@ -42,5 +53,26 @@ public class UserService {
         userRepository.save(newUser);
 
         return new UserRegisterResponseDTO(userRegisterDTO.username(), userRegisterDTO.suapUsername());
+    }
+
+    @Transactional
+    public void deleteUser(String username){
+        User foundUser = this.getUserByName(username);
+
+        userRepository.delete(foundUser);
+    }
+
+    @Transactional
+    public void updateUser(String username, UserPatchDTO userPatchDTO){
+        User foundUser = this.getUserByName(username);
+
+        Optional<User> checkNewUsername = userRepository.findByUsername(userPatchDTO.username());
+        if(checkNewUsername.isPresent()){
+            throw new IllegalArgumentException("O username '" + userPatchDTO.username() + "' ja esta em uso.");
+        }
+
+        foundUser.setUsername(userPatchDTO.username());
+
+        userRepository.saveAndFlush(foundUser);
     }
 }
