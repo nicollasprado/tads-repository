@@ -35,9 +35,9 @@ public class User {
     @NotBlank
     private String password;
 
-    @Column(name = "suap_username", unique = true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     @NotBlank
-    private String suapUsername;
+    private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -48,9 +48,9 @@ public class User {
     private Set<Comment> comments;
 
 
-    public User(String username, String password, String suapUsername){
+    public User(String username, String password, String email){
         this.username = username;
         this.password = password;
-        this.suapUsername = suapUsername;
+        this.email = email;
     }
 }

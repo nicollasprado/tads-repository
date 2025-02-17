@@ -1,4 +1,4 @@
 package com.tadsrepository.api.dto;
 
-public record UserPatchDTO(String username) {
+public record UserPatchDTO(String username, String email) {
 }

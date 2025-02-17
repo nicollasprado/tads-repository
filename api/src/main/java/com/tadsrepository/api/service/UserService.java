@@ -28,7 +28,7 @@ public class UserService {
         User user = userFound.get();
         return new UserGetDTO(
                 user.getUsername(),
-                user.getSuapUsername()
+                user.getEmail()
         );
     }
 
@@ -47,12 +47,12 @@ public class UserService {
         User newUser = new User(
                 userRegisterDTO.username(),
                 userRegisterDTO.password(),
-                userRegisterDTO.suapUsername()
+                userRegisterDTO.email()
         );
 
         userRepository.save(newUser);
 
-        return new UserRegisterResponseDTO(userRegisterDTO.username(), userRegisterDTO.suapUsername());
+        return new UserRegisterResponseDTO(userRegisterDTO.username(), userRegisterDTO.email());
     }
 
     @Transactional
