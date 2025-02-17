@@ -1,20 +1,17 @@
-import { LockKeyhole, Mail, User } from "lucide-react";
+import { LockKeyhole, User } from "lucide-react";
 import AuthInput from "./AuthInput";
 import { FC } from "react";
 
-interface RegisterInputListProps {
+interface LoginInputListProps {
     mobile?: boolean;
 }
 
-const RegisterInputList: FC<RegisterInputListProps> = ({ mobile }) => {
+export const LoginInputList: FC<LoginInputListProps> = ({ mobile }) => {
     if(!mobile){
         return (
             <ul className="flex flex-col gap-[3dvh]">
                 <li>
                     <AuthInput type="text" placeholder="nome de usuário" name={"username"} icon={<User className="inputIcon" />} />
-                </li>
-                <li>
-                    <AuthInput type="email" placeholder="e-mail" name={"email"} icon={<Mail className="inputIcon" />} />
                 </li>
                 <li>
                     <AuthInput type="password" placeholder="senha" name={"password"} icon={<LockKeyhole className="inputIcon" />} />
@@ -29,13 +26,8 @@ const RegisterInputList: FC<RegisterInputListProps> = ({ mobile }) => {
                 <AuthInput type="text" placeholder="nome de usuário" name={"username"} icon={<User className="inputIconMobile" />} mobile={true} />
             </li>
             <li>
-                <AuthInput type="email" placeholder="e-mail" name={"email"} icon={<Mail className="inputIconMobile" />} mobile={true} />                                
-            </li>
-            <li>
                 <AuthInput type="password" placeholder="senha" name={"password"} icon={<LockKeyhole className="inputIconMobile" />} mobile={true} />                                
             </li>
         </ul>
     )
 }
-
-export default RegisterInputList

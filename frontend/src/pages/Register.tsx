@@ -1,25 +1,10 @@
-import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
 import RegisterInputList from "../components/RegisterInputList"
-import { RegisterUserData } from "../interface/RegisterUserData";
+import { registerUserService } from "../services/registerUserService";
+import { FormButton } from "../components/FormButton";
 
 function Register(){
-    const [registerUserData, setRegisterUserData] = useState<RegisterUserData>(() => {
-        const storedData = sessionStorage.getItem("userData");
-        return storedData ? JSON.parse(storedData) : {
-            username: "",
-            email: ""
-        }
-    });
-
-    useEffect(() => {
-        setRegisterUserData(oldData => ({
-            ...oldData,
-            password: ""
-        }))
-        
-        sessionStorage.setItem("userData", JSON.stringify(registerUserData));
-    }, [registerUserData.username, registerUserData.email]);
-
+    const navigation = useNavigate();
 
     return (
         <main className="w-[100dvw] h-[100dvh] bg-radial from-slate-400 from-30% to-slate-800 flex items-center justify-center">
@@ -28,8 +13,8 @@ function Register(){
             <div className="w-[100dvw] h-[100dvh] bg-sky-800 rounded-[2dvw] flex flex-col items-center gap-[20dvh]  lg:hidden">
                 <h1 className="text-[10dvw] font-bold text-stone-300 p-[2dvw]">TADS REPOSITORY</h1>
 
-                <form action="" className="flex flex-col items-center gap-[10dvw]">
-                    <RegisterInputList mobile={true} registerUserData={registerUserData} setRegisterUserData={setRegisterUserData} />
+                <form action="POST" onSubmit={(e) => registerUserService(e, navigation)} className="flex flex-col items-center gap-[10dvw]">
+                    <RegisterInputList mobile={true} />
                     <button type="submit"
                             className="bg-blue-300 dark:bg-blue-300 rounded-[.5dvw] w-[55dvw] h-[10dvh] text-[4.5dvw] flex items-center justify-center font-bold hover:bg-blue-400 cursor-pointer transition duration-200"
                             >CADASTRAR
@@ -48,18 +33,15 @@ function Register(){
                     </section>
                     <div className="flex flex-col items-center gap-[.5dvw]">
                         <h3 className="text-[1.3dvw] text-stone-300">Já possuo cadastro</h3>
-                        <a href="" className="bg-white rounded-[1.2dvw] w-[17dvw] h-[5dvh] text-[1.2dvw] flex items-center justify-center font-bold">CONECTAR</a>
+                        <a href="/login" className="bg-white rounded-[1.2dvw] w-[17dvw] h-[5dvh] text-[1.2dvw] flex items-center justify-center font-bold">CONECTAR</a>
                     </div>
                 </div>
 
                 <div className="bg-sky-800 w-[35dvw] flex flex-col items-center justify-evenly gap-[5dvh] rounded-r-[2dvw]">
                     <h2 className="text-[2.2dvw] font-semibold text-stone-300">CRIAR CONTA</h2>
-                    <form className="flex flex-col gap-[5dvh]">
-                        <RegisterInputList registerUserData={registerUserData} setRegisterUserData={setRegisterUserData} />
-                        <button type="submit" 
-                            className="bg-blue-300 rounded-[.5dvw] w-[23dvw] h-[5dvh] text-[1.2dvw] flex items-center justify-center font-bold hover:bg-blue-400 cursor-pointer transition duration-200"
-                            >CADASTRAR
-                        </button>
+                    <form action="POST" onSubmit={(e) => registerUserService(e, navigation)} className="flex flex-col gap-[5dvh]">
+                        <RegisterInputList />
+                        <FormButton children={"CADASTRAR"} />
                     </form>
                 </div>
             </div>
