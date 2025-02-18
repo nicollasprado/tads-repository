@@ -6,6 +6,7 @@ import com.tadsrepository.api.dto.PostGetDTO;
 import com.tadsrepository.api.dto.PostUpdateDTO;
 import com.tadsrepository.api.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,6 +20,13 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+
+    @GetMapping("/page")
+    public ResponseEntity<List<PostGetDTO>> postsPage(Pageable pageable){
+        List<PostGetDTO> page = postService.getPostPage(pageable).getContent();
+
+        return ResponseEntity.ok(page);
+    }
 
     @GetMapping("/{username}")
     public ResponseEntity<List<PostGetDTO>> getPostsByUsername(@PathVariable String username){

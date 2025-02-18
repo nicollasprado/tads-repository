@@ -10,6 +10,7 @@ public record PostGetDTO(
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
         Integer likes,
-        String text
+        String text,
+        String author
 ) {
 }

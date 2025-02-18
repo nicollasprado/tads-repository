@@ -11,12 +11,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+
+    public String getUsernameById(UUID id){
+        Optional<User> foundUser = userRepository.findById(id);
+
+        if(foundUser.isEmpty()){
+            throw new IllegalArgumentException("User not found");
+        }
+
+        return foundUser.get().getUsername();
+    }
 
     public UserGetDTO getUserDTOByName(String username){
         Optional<User> userFound = userRepository.findByUsername(username);

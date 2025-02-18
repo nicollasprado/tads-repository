@@ -9,6 +9,9 @@ import com.tadsrepository.api.model.User;
 import com.tadsrepository.api.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -22,6 +25,24 @@ public class PostService {
     @Autowired
     private UserService userService;
 
+
+    public Page<PostGetDTO> getPostPage(Pageable pageable){
+        Page<Post> postPage = postRepository.findAll(pageable);
+
+        List<PostGetDTO> postsDTOs = new ArrayList<>();
+
+        postPage.stream().forEach(post -> postsDTOs.add(new PostGetDTO(
+                post.getTitle(),
+                post.getPostCategory(),
+                post.getCreatedAt(),
+                post.getUpdatedAt(),
+                post.getLikes(),
+                post.getText(),
+                userService.getUsernameById(post.getUser().getId())
+        )));
+
+        return new PageImpl<>(postsDTOs);
+    }
 
     public List<PostGetDTO> getPostsDTOByUsername(String username){
         User postCreator = userService.getUserByName(username);
@@ -39,7 +60,8 @@ public class PostService {
                 post.getCreatedAt(),
                 post.getUpdatedAt(),
                 post.getLikes(),
-                post.getText()
+                post.getText(),
+                username
                 )));
 
         return postsDTO;
@@ -61,7 +83,8 @@ public class PostService {
                 post.getCreatedAt(),
                 post.getUpdatedAt(),
                 post.getLikes(),
-                post.getText()
+                post.getText(),
+                username
         );
     }
 
