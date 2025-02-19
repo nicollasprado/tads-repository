@@ -2,15 +2,15 @@ import { Search } from "lucide-react"
 
 function Header(){
     return (
-        <header className="w-[100dvw] h-[8dvh] pl-[1dvw] bg-sky-700 border-b-[.1dvw] border-sky-950 flex items-center justify-between">
-            <h1 className="text-[2dvw] font-bold">TADS REPOSITORY</h1>
+        <header className="w-[100dvw] h-[8dvh] pl-[1dvw] bg-yellow-50 border-b-[.1dvw] border-sky-950 flex items-center justify-between">
+            <h1 className="text-[2dvw] font-bold text-sky-600">TADS REPOSITORY</h1>
 
             <form action="GET" className="flex items-center">
-                <input type="text" name="postSearch" placeholder="buscar postagens especificas" 
-                       className="bg-slate-300 w-[45dvw] h-[4dvh] p-[.3dvw] outline-0 rounded-l-[.5dvw] text-[.8dvw]" 
+                <input type="text" name="postSearch" placeholder="buscar postagens ou usuários" 
+                       className="bg-yellow-50 border-y-[.1dvw] border-l-[.1dvw] w-[45dvw] h-[3.8dvh] p-[.3dvw] outline-0 rounded-l-[.5dvw] text-[.8dvw]" 
                 />
-                <button type="submit" className="cursor-pointer bg-yellow-400 hover:bg-yellow-500 rounded-r-[.5dvw]">
-                    <Search className="w-[2.5dvw] h-[4dvh]" />
+                <button type="submit" className="cursor-pointer border-y-[.1dvw] border-r-[.1dvw] rounded-r-[.5dvw]">
+                    <Search className="w-[2.4dvw] h-[3.7dvh]" />
                 </button>
             </form>
 

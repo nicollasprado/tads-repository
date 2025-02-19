@@ -6,14 +6,14 @@ function formatNumDate(num: number){
     return (num < 10) ? "0" + num.toString() : num;
 }
 
-function getBgColor(category: string){
+function getCategoryColor(category: string){
     switch(category){
         case "Content":
             return "bg-green-700";
         case "Help":
-            return "bg-yellow-700";
+            return "bg-yellow-500";
         case "New":
-            return "bg-purple-700";
+            return "bg-purple-500";
         case "Marketing":
             return "bg-blue-400"; 
     }
@@ -71,7 +71,7 @@ function getPostTimeAgo(postDate: number[]){
 const PostCard: FC<{ data: PostData }> = ({ data }) => {
 
     return (
-        <article className={`w-[40dvw] h-[15dvh] drop-shadow-2xl flex flex-col gap-[1dvh] rounded-[.5dvw] ${getBgColor(data.postCategory)}`}>
+        <article className={`w-[40dvw] h-[16dvh] drop-shadow-2xl flex flex-col gap-[1dvh] rounded-[.5dvw] ${getCategoryColor(data.postCategory)}`}>
 
             <span className="flex items-center justify-between border-b-[.1dvw] border-white px-[.5dvw]">
                 <span className="flex gap-[.5dvw] items-center">
@@ -91,7 +91,7 @@ const PostCard: FC<{ data: PostData }> = ({ data }) => {
 
             <span className="flex flex-col items-center gap-[4.6dvh]">
                 <p className="text-[.8dvw]">{data.text}</p>
-                <button className="flex items-center text-[.9dvw] cursor-pointer">
+                <button className="flex items-center text-[.9dvw] cursor-pointer border-[.1dvw] px-[.6dvw] py-[.2dvh] rounded-[.5dvw]">
                         Conferir
                         <ArrowUpRight size={"1dvw"} />
                 </button>
